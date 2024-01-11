@@ -10,14 +10,15 @@ body {
   height: 100vh;
 }
 main {
-  height: 550px;
+  height: auto;
   width: 550px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   gap: 7px;
   background-color: #f5f7fb;
+  padding: 20px;
 }
 .btn {
   width: 192px;
@@ -54,4 +55,21 @@ main {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+.optnContainer{
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+
+}
+.question{
+  padding: 4px;
+}
+.question h3{
+  padding-bottom: 6px;
+}
+.optBtn{
+  color: green;
+  background-color: whitesmoke;
+  border-radius: 4px;
 }

@@ -1,39 +1,50 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 
 export default function Questions() {
-  const [data, setData] = useState({});
-  const [isFetching, setIsFetching] = useState(false);
-  console.log(isFetching)
+  const [data, setData] = useState([]);
+
+  let isFetched= useRef(false)
+  // console.log(isFetching)
   useEffect(() => {
-    if (!isFetching) {
-      console.log("fetching");
-      setIsFetching(true);
-      setTimeout(() => {
-        fetchData();
-      }, 1500); // Add a delay of 500 milliseconds
+    if (!isFetched.current) {
+      fetchData();
+      isFetched.current=true;
+      
     }
   }, []);
 
   const fetchData = async () => {
     try {
-      const response = await fetch("https://opentdb.com/api.php?amount=5");
+      const response = await fetch(
+        "https://opentdb.com/api.php?amount=5&category=30&difficulty=easy&type=multiple"
+      );
       const data = await response.json();
-      // console.log(data);
-      // setData(data);
+      console.log(data.results);
+      setData(data.results);
     } catch (error) {
       console.log(error.message);
     }
   };
-  return (
+  // let options=[];
+  return(
     <>
       <main>
-        {/* {
-          data.map((item)=>{
-
+        {data.length > 0 ? (
+          data.map((item, index) => {
+            const options = [...item.incorrect_answers, item.correct_answer]; // Create a new array for each question
+            console.log(options);
+            const optElem = options.map((op, index) => <button className="optBtn" key={index}>{op}</button>); // Add keys
+            return (
+              <section className="question" key={index}>
+                <h3>{item.question}</h3>
+                <div className="optnContainer">{optElem}</div>
+              </section>
+            );
           })
-        } */}
-        <h1>Hi from question page</h1>
+        ) : (
+          <h1>Questions are on the way!</h1>
+        )}
       </main>
     </>
   );
